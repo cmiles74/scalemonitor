@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.nervestaple.scalemonitor.ScaleMonitor
+Class-Path: resources/ resources/properties/ resources/commons-logging-1.0.3.jar resource/commons-io-1.0.jar resources/forms_rt.jar resources/log4j-1.2.8.jar resources/winlaf-0.5.1.jar resources/commons-lang-2.1.jar resources/commons-collections-3.1.jar resources/comm-2.0.jar resources/RXTXcomm.jar resources/nervestaple-utilities-1.2.jar resources/mrjadapter-1.0.7.jar resources/quaqua-3.6.11.jar
+Created-By: 1.4.2 (Chris Miles)

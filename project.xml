@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:ant="jelly:ant">
+    <!-- the version of maven's project object model -->
+    <pomVersion>3</pomVersion>
+
+    <!-- a unique name for this project -->
+    <id>ScaleMonitor</id>
+
+    <!-- a short but descriptive name for the project -->
+    <name>Scale Monitor</name>
+
+    <!-- The version of the project under development, e.g.
+    1.1, 1.2, 2.0-SNAPSHOT -->
+    <currentVersion>1.6</currentVersion>
+
+    <!-- details about the organization that 'owns' the project -->
+    <organization>
+        <name>Nervestaple Development</name>
+        <url>http://www.nervestaple.com/</url>
+        <logo/>
+    </organization>
+
+    <!-- the year the project started -->
+    <inceptionYear>2005</inceptionYear>
+    <package>com.nervestaple.scalemonitor</package>
+    <logo/>
+    <description><![CDATA[
+
+    <p>Provides an application for logging data from multiple serial port electronic scales.</p>
+
+    <p>The compiled application can be downloaded form <a href="dist">the distribution
+    folder</a>.</p>
+
+    <p>If you are having problems on Mac OS X, download and run the macosx-setup-rxtx.sh script from the
+    <a href="dist">the distribution folder</a>. RXTX uses lock files and this won't work on Mac OS X unless
+    the permissions are appropriately set. This is a weak solution, I'll build an installer that does this
+    automatically for the next version.</p>
+    ]]></description>
+
+    <!-- a short description of what the project does -->
+    <shortDescription>Scale data logging application</shortDescription>
+
+    <!-- the project home page -->
+    <url>http://www.nervestaple.com/projects/scalemonitor</url>
+    <issueTrackingUrl/>
+    <siteAddress>www.nervestaple.com</siteAddress>
+    <siteDirectory>/usr2/var/www/nervestaple/www/projects/scalemonitor</siteDirectory>
+    <distributionDirectory>/usr2/var/www/nervestaple/www/projects/scalemonitor/dist</distributionDirectory>
+
+    <!-- the version control repository and http url for online access
+         the connection element has the form:
+         scm:<system>:<system specific connection string> -->
+
+    <repository>
+        <connection>scm:svn:http://svn.nervestaple.com/svn/pub-repos/scalemonitor</connection>
+        <url>http://svn.nervestaple.com/viewsvn/ScaleMonitor</url>
+    </repository>
+
+    <!-- any mailing lists for the project -->
+    <mailingLists/>
+
+    <!-- who the developers are for the project -->
+
+    <developers>
+        <developer>
+            <name>Christopher Miles</name>
+            <id>miles</id>
+            <email>twitch@mnervestaple.com</email>
+            <organization>Nervestaple Development</organization>
+            <timezone>-4</timezone>
+        </developer>
+    </developers>
+    <!-- jar files the project is dependent on -->
+
+    <dependencies>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>idea</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>6.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>idea</groupId>
+            <artifactId>javac2</artifactId>
+            <version>6.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.0b8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>bcel</groupId>
+            <artifactId>bcel</artifactId>
+            <version>5.1</version>
+        </dependency>
+
+        <dependency>
+            <id>winlaf</id>
+            <groupId>winlaf</groupId>
+            <jar>winlaf-0.5.1.jar</jar>
+        </dependency>
+        <dependency>
+            <id>winlaf-lib</id>
+            <groupId>winlaf</groupId>
+            <jar>winlaf-0.5.1.dll</jar>
+            <type>resource</type>
+        </dependency>
+
+        <dependency>
+            <id>quaqua</id>
+            <groupId>quaqua</groupId>
+            <jar>quaqua-3.6.11.jar</jar>
+        </dependency>
+        <dependency>
+            <id>quaqua-lib</id>
+            <groupId>quaqua</groupId>
+            <jar>libquaqua-3.6.11.jnilib</jar>
+            <type>resource</type>
+        </dependency>
+        
+        <dependency>
+            <id>rxtx-comm</id>
+            <groupId>rxtx</groupId>
+            <jar>RXTXcomm-2-1.7r2.jar</jar>
+        </dependency>
+        <dependency>
+            <id>rxtx-parallel-win32</id>
+            <groupId>rxtx</groupId>
+            <jar>rxtxParallel-2-1.7r2.dll</jar>
+            <type>resource</type>
+        </dependency>
+        <dependency>
+            <id>rxtx-serial-win32</id>
+            <groupId>rxtx</groupId>
+            <jar>rxtxSerial-2-1.7r2.dll</jar>
+            <type>resource</type>
+        </dependency>
+        <dependency>
+            <id>rxtx-serial-osx</id>
+            <groupId>rxtx</groupId>
+            <jar>librxtxSerial-2-1.7r2.jnilib</jar>
+            <type>resource</type>
+        </dependency>
+
+        <dependency>
+            <groupId>mrjadapter</groupId>
+            <artifactId>mrjadapter</artifactId>
+            <version>1.0.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nervestaple-utilities</groupId>
+            <artifactId>nervestaple-utilities</artifactId>
+            <version>1.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <nagEmailAddress>twitch@nervestaple.com</nagEmailAddress>
+        <sourceDirectory>src</sourceDirectory>
+    </build>
+
+    <reports>
+        <report>maven-jdepend-plugin</report>
+        <report>maven-checkstyle-plugin</report>
+        <report>maven-pmd-plugin</report>
+        <report>maven-changelog-plugin</report>
+        <report>maven-file-activity-plugin</report>
+        <report>maven-developer-activity-plugin</report>
+        <report>maven-javadoc-plugin</report>
+        <report>maven-jxr-plugin</report>
+        <report>maven-junit-report-plugin</report>
+        <report>maven-tasklist-plugin</report>
+    </reports>
+</project>

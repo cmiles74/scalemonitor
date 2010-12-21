@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<project name="ScaleMonitor" default="dist">
+
+    <!-- load in user/machine specific build properties -->
+    <property file="build.properties"/>
+
+    <!-- project properties -->
+    <property name="name" value="ScaleMonitor"/>
+    <property name="name-macintosh" value="Scale Monitor"/>
+    <property name="name-windows" value="scalemonitor"/>
+    <property name="version" value="1.7"/>
+    <property name="source.dir" value="src"/>
+    <property name="build.dir" value="classes"/>
+    <property name="project.dir" value="."/>
+    <property name="product.dir" value="dist"/>
+    <property name="lib.dir" value="libs"/>
+    <property name="deploy.dir" value="/usr2/var/www/nervestaple/www/projects/scalemonitor/dist"/>
+
+    <!-- check to see if we are building on a macintosh -->
+    <condition property="isMacintosh">
+        <os family="mac"/>
+    </condition>
+
+    <path id="project.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- IntelliJ IDEA gui builder task -->
+    <taskdef
+            name="uidesigner"
+            classname="com.intellij.ant.Javac2"
+            classpathref="project.classpath"/>
+
+    <!-- define the launch4j task -->
+    <taskdef name="launch4j"
+             classname="net.sf.launch4j.ant.Launch4jTask"
+             classpath="${launch4j.home}/launch4j.jar:${launch4j.home}/lib/xstream.jar"/>
+
+    <!-- target for cleaning the project -->
+    <target name="clean" description="Removed all build artifacts">
+        <delete dir="${build.dir}/com/nervestaple"/>
+        <delete dir="${build.dir}/com/intellij"/>
+        <delete dir="${product.dir}/"/>
+        <delete dir="${product.dir}/${name-macintosh}.app"/>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${product.dir}"/>
+    </target>
+
+    <!-- copies over all resources need for the application -->
+    <target name="resources" description="Gathers Resources needed for application">
+
+        <copy todir="${product.dir}/${name}/resources">
+            <fileset dir="${lib.dir}">
+                <include name="*.*"/>
+            </fileset>
+        </copy>
+
+        <!-- copy over the property files -->
+        <copy todir="${product.dir}/${name}/resources/properties">
+            <fileset dir="${project.dir}/properties">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- compiles the project -->
+    <target name="compile" depends="resources">
+
+        <javac srcdir="${source.dir}"
+            destdir="${build.dir}"
+            debug="true"
+            deprecation="false"
+            optimize="true"
+            classpathref="project.classpath">
+
+            <include name="com/nervestaple/**/*.java"/>
+        </javac>
+
+        <copy todir="${build.dir}">
+            <fileset dir="${source.dir}">
+                <include name="**/*.png"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- compiles the GUI forms for the project -->
+    <target name="uidesigner.compile" depends="compile" unless="build.generics.javac">
+        <uidesigner
+            destdir="${build.dir}"
+            debug="on"
+            source="1.4">
+            <src path="${source.dir}/com/nervestaple"/>
+            <include name="**/*.form"/>
+            <classpath refid="project.classpath"/>
+            <classpath path="${source.dir}/com/nervestaple"/>
+            <classpath path="${build.dir}"/>
+        </uidesigner>
+    </target>
+
+    <!-- creates the main JAR file for the project -->
+    <target name="jarfile" depends="uidesigner.compile" description="Builds a Pure Java JAR File for the Application">
+
+        <jar destfile="${product.dir}/${name}/${name}.jar"
+            manifest="${project.dir}/Manifest.mf">
+
+            <fileset dir="${build.dir}" includes="com/nervestaple/**/*.*"/>
+        </jar>
+    </target>
+
+    <!-- builds a Macintosh application bundle -->
+    <target name="macintosh" depends="jarfile" if="isMacintosh" description="Builds a Mac OS X Application Bundle">
+        <mkdir dir="${product.dir}/${name-macintosh}.app/Contents/MacOS"/>
+        <mkdir dir="${product.dir}/${name-macintosh}.app/Contents/Resources/Java"/>
+        <copy file="/System/Library/Frameworks/JavaVM.framework/Versions/Current/Resources/MacOS/JavaApplicationStub"
+            tofile="${product.dir}/${name-macintosh}.app/Contents/MacOS/${name}"/>
+        <copy todir="${product.dir}/${name-macintosh}.app/Contents"
+            file="${project.dir}/macintosh/Info.plist"/>
+        <echo file="${product.dir}/${name-macintosh}.app/Contents/PkgInfo" append="false">APPL????</echo>
+        <copy todir="${product.dir}/${name-macintosh}.app/Contents/Resources/">
+            <fileset dir="${project.dir}/macintosh/" includes="*.icns"/>
+        </copy>
+
+        <copy todir="${product.dir}/${name-macintosh}.app/Contents/Resources/Java">
+            <fileset dir="${product.dir}/${name}/"/>
+        </copy>
+
+        <chmod file="${product.dir}/${name-macintosh}.app/Contents/MacOS/${name}" perm="775"/>
+    </target>
+
+    <!-- builds the windows distribution folder -->
+    <target name="windows" depends="jarfile" description="Builds the Windows distribution folder">
+        <mkdir dir="${product.dir}/${name-windows}-windows"/>
+        <mkdir dir="${product.dir}/${name-windows}-windows/resources"/>
+
+        <copy todir="${product.dir}/${name-windows}-windows/resources">
+            <fileset dir="${product.dir}/${name}/resources"/>
+        </copy>
+        <copy file="windows/application.ico" todir="${product.dir}/${name-windows}-windows"/>
+        <copy file="${product.dir}/${name}/${name}.jar" tofile="${product.dir}/${name-windows}-windows/${name-windows}.jar"/>
+
+        <!-- windows wants the JNI libraries in the root application folder -->
+        <copy todir="${product.dir}/${name-windows}-windows/">
+            <fileset dir="${product.dir}/${name}/resources">
+                <include name="*.dll"/>
+            </fileset>
+        </copy>
+
+        <!-- create a windows executable to launch the app -->
+        <launch4j configFile="launch4j.config.xml"/>
+    </target>
+
+    <!-- creates the pure java zip file for distribution -->
+    <target name="dist-java" depends="clean,jarfile" description="Build the distribution">
+        <echo message="Building distribution"/>
+
+        <zip destfile="${product.dir}/${name}-${version}.zip">
+            <zipfileset dir="${product.dir}/${name}" prefix="${name}"/>
+        </zip>
+    </target>
+
+    <!-- creates the Windows zip file for distribution -->
+    <target name="dist-windows" depends="windows" description="Builds the Windows distribution">
+        <zip destfile="${product.dir}/${name}-windows-${version}.zip">
+            <zipfileset dir="${product.dir}/${name-windows}-windows" prefix="${name-windows}"/>
+        </zip>
+    </target>
+
+    <!-- creates the Macintosh zip file for distribution -->
+    <target name="dist-macintosh" depends="macintosh" if="isMacintosh" description="Builds the Mac OS X distribution">
+        <zip destfile="${product.dir}/${name}-mac-${version}.zip">
+            <zipfileset dir="${product.dir}/${name-macintosh}.app" prefix="${name-macintosh}.app"/>
+            <zipfileset dir="${product.dir}/${name-macintosh}.app"
+                includes="Contents/MacOS/${name}" filemode="775"
+                prefix="${name-macintosh}.app"/>
+        </zip>
+    </target>
+
+    <target name="dist" depends="dist-java, dist-windows, dist-macintosh" description="Builds the distributions"/>
+</project>
