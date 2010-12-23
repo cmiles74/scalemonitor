@@ -3,7 +3,7 @@
 This project provides a simple application that will monitor and
 record weight data from electronic scales connected to serial ports
 (including USB-to-serial-port adapters). It is written in Java and
-uses the Swing toolkit to provide a friendly, GUI interface.
+uses the Swing toolkit to provide a friendly GUI interface.
 
 ## Requirements
 
@@ -21,18 +21,18 @@ installer.
 
 You will need to install both of these packages and then set the
 appropriate paths in the "build.properties" file. A sample properties
-file is provided, simple copy this file and customize its values.
+file is provided, simply copy this file and customize its values.
 
 ## Building the Project
 
 Building the project is easy. Once you have installed the
-pre-requisites, and customized the "build.properties" file, run Ant
+pre-requisites and customized the "build.properties" file, run Ant
 from the root directory. All of the other required libraries are
 bundled with the project.
 
 I know that checking the library files into the project is a bad idea,
-but I haven't had time to set the project up with (Maven
-2)[http://maven.apache.org/] (this is on my to-do list).
+but I haven't had time to set the project up with [Maven
+2](http://maven.apache.org/). This is on my to-do list!
 
 ## Running the Application
 
@@ -51,9 +51,9 @@ be in the "dist" folder.
   folder that contains the Macintosh distribution. There will also be
   a ZIP archive with the same contents.
 
-The Mac OS X distribution is only built on Macintosh hosts. The build
-process copies a stub file for launching the application that is only
-present on Macintosh.
+The Mac OS X distribution is only built when you're building on
+Macintosh. The build process copies a stub file for launching the
+application that is only present on Macintosh.
 
 If you are running the application from the Java distribution you will
 need to set the library path.
@@ -81,4 +81,4 @@ mine that had a bunch of scales attached to a proprietary interface
 that had ceased functioning. She uses the AND EW 300A and that's the
 only supported scale right now. I'm sure this application would work
 with other serial port scales, but right now this is the only one she
-uses and that I have available for testing.
+uses, so it's the only one I have available for testing.
